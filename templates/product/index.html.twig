@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }} - Détails du produit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/product.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/header.css') }}">
+    {% block javascripts %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
+        {% endblock %}
+</head>
+<body>
+    <div data-controller="cart">
+        {% include 'header/header.html.twig' %}
+            <div class="product-presentation">
+                <h1>{{ product.name }}</h1>
+                <p class="price">{{ product.price }} €</p>
+                <p class="description">{{ product.description }}</p>
+                <p class="stock">Stock : {{ product.stock > 0 ? product.stock ~ ' disponibles' : 'Rupture de stock' }}</p>
+                <p class="status">Statut : {{ product.status.value }}</p>
+
+                <h2>Images du produit</h2>
+                <div class="product-images">
+                    {% if product.images|length > 0 %}
+                        {% for img in product.images %}
+                            <img src="{{ img.url }}" alt="Image de {{ product.name }}" class="product-image">
+                        {% endfor %}
+                    {% else %}
+                        <p>Aucune image disponible pour ce produit.</p>
+                    {% endif %}
+                </div>
+
+                <h2>Catégories</h2>
+                <div class="product-categories">
+                    {% if product.category|length > 0 %}
+                        {% for category in product.category %}
+                            <span class="category">{{ category.name }}</span>
+                        {% endfor %}
+                    {% else %}
+                        <p>Ce produit n'appartient à aucune catégorie.</p>
+                    {% endif %}
+                </div>
+
+                <a href="{{ path('app_homepage') }}" class="back-to-list">Retour à la liste des produits</a>
+
+                <h1>{{ product.name }}</h1>
+                <p class="price">{{ product.price }} €</p>
+                <p class="description">{{ product.description }}</p>
+
+                <input type="number" data-cart-target="quantityInput" value="1" />
+                <button data-action="cart#addToCart" data-product-id="{{ product.id }}">Ajouter au panier</button>
+                
+            </div>
+    </div>
+</body>
+</html>

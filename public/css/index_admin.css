@@ -1,0 +1,44 @@
+body {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+}
+
+.navbar{
+    display: flex;
+    justify-content: space-around;
+}
+.navbar a{
+    text-decoration: none;
+    color: black;
+    font-size: xx-large;
+    font-weight: 600;
+    background-color: lightblue;
+    padding: 1%;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.navbar a:hover{
+    background-color: rgba(173, 216, 230, 0.501);
+}
+.scroll-table {
+    max-height: 300px; /* Limiter la hauteur du tableau */
+    overflow-y: scroll; /* Activer le défilement vertical */
+    border: 1px solid #ddd;
+    width: 80%;
+    margin-left: 10%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #f4f4f4;
+}

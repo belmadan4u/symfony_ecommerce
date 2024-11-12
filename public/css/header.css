@@ -1,0 +1,159 @@
+.searchBox {
+    background: #2f3640;
+    height: 40px;
+    border-radius: 40px;
+    padding: 2px;
+}
+
+.searchBox:hover > #searchInput {
+    width: 240px;
+    padding: 0 6px;
+}
+
+.searchBox:hover > .searchButton {
+    background: white;
+    color: #2f3640;
+}
+
+.searchButton {
+    color: white;
+    float: right;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.4s;
+}
+
+#searchInput {
+    border: none;
+    background: none;
+    outline: none;
+    float: left;
+    padding: 0;
+    color: white;
+    font-size: 16px;
+    transition: 0.4s;
+    line-height: 40px;
+    width: 0px;
+}
+
+.langues {
+    display: flex; 
+    align-items: center; 
+}
+
+.langues img{
+    margin-left: 10px;
+}
+
+.header {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin-bottom: 1%;
+}
+
+.search-cart-user {
+    display: flex; 
+    align-items: center; 
+}
+
+.title {
+    width: 50%; 
+    margin: 0 auto; /* Centre horizontalement */
+    text-align: center; 
+    text-decoration:none;
+    color: black;
+}
+
+.bigheader {
+    border-bottom: 1px solid black;
+}
+
+.user-menu-container {
+    position: relative;
+    display: inline-block;
+}
+
+/* Style du menu déroulant */
+.dropdown-menu {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 100%; /* Position directly below the icon */
+    right: 0;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Increased z-index */
+    border-radius: 5px;
+    padding: 10px 0;
+    text-align: left;
+    margin: 0; /* Reset margin */
+    list-style: none; /* Remove bullets */
+    opacity: 0; /* Hidden by default */
+    transform: translateY(-10px); /* Slightly move up */
+    transition: opacity 0.4s ease, transform 0.4s ease; /* Smooth transition */
+}
+
+/* Show the dropdown menu on hover */
+.user-menu-container:hover .dropdown-menu {
+    display: block; /* Show the menu */
+    opacity: 1; /* Fade in */
+    transform: translateY(0); /* Move to original position */
+}
+
+.dropdown-menu li {
+    padding: 8px 16px; /* Padding for menu items */
+}
+
+.dropdown-menu li a {
+    text-decoration: none; /* Remove underline */
+    color: #333; /* Dark color for links */
+    display: block; /* Block display for full clickable area */
+}
+
+.dropdown-menu li a:hover {
+    background-color: #f0f0f0; /* Change background on hover */
+}
+
+.searchBox #searchInput.not-empty {
+    width: 240px; /* La même largeur que lors du hover */
+    padding: 0 6px;
+}
+
+
+.cart-container {
+    position: relative;
+    display: inline-block;
+}
+
+.cart-dropdown {
+    display: none;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    width: 200px;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
+
+.cart-container:hover .cart-dropdown {
+    display: block;
+}
+
+.cart-dropdown ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.cart-dropdown ul li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}

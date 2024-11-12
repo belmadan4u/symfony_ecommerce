@@ -1,0 +1,39 @@
+{% block title %}Orders List{% endblock %}
+
+{% block body %}
+    <a href="{{ path('admin_dashboard') }}">
+        Retour
+    </a>
+    <h1>Orders List</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Commandes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for commande in orders %}
+                <tr>
+                    <td>
+                        id : {{ commande.id }}, le {{ commande.createdAt|date('d/m/Y H:i') }} de {{ commande.ofUser.id }} ( {{ commande.ofUser.firstName }} {{ commande.ofUser.lastName }} ) </br> 
+                        
+                        <ul>
+                        {% set montantCommande = 0 %}
+                        {% if commande.orderItems|length != 0 %}
+                            {% for orderItem in commande.orderItems %}    
+                                {% set montantCommande = montantCommande +  orderItem.quantity * orderItem.productPrice %}
+                                <li>{{ orderItem.quantity }} {{ orderItem.product.name }} à {{ orderItem.productPrice }} €</li>
+                            {% endfor %}
+                        {% else %}
+                            <li>Pas de produit associé à cette commande</li>
+                        {% endif %}
+                        </ul>
+                        
+                        Montant total de la commande : {{montantCommande}} €
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

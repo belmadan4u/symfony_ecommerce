@@ -1,0 +1,78 @@
+<div class='bigheader'>
+    <a class='title' href="{{ path('app_homepage')}}" >
+        {% if app.user and app.user.roles.0 == 'ADMIN' %}
+            <h1 class='title'>{{ 'Bienvenue'|trans }} ADMIN</h1>
+        {% else %}
+            <h1 class='title'>{{ 'Bienvenue'|trans }}</h1>
+        {% endif %}
+    </a>
+
+    <div class='header'>
+        <div class="langues">
+            <a href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge({'_locale': 'fr'})) }}">
+                <img src="{{ asset('images/france-flag-icon.webp') }}" width="25px" />
+            </a>
+            <a href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge({'_locale': 'en'})) }}">
+                <img src="{{ asset('images/English-Language-Flag-icon.png') }}" width="25px" />
+            </a>
+        </div>
+
+        <div class="search-cart-user">
+            <div class="searchBox">
+                <input id="searchInput" data-search-target="input" type="text" placeholder="Search" data-action="input->search#searchProducts">
+                <button class="searchButton">
+                    <img src="{{ asset('images/loupe.png') }}" alt="loupe-search-bar" width='35px'>
+                </button>
+            </div>
+
+            
+            {% if app.user and app.user.roles.0 != 'ADMIN' or not app.user%}
+            <div class="cart-container">
+                <a href="{{ path('app_cart') }}">
+                    <img src="{{ asset('images/panier.png') }}" alt="Panier" width="40px">
+                </a>
+
+                <div class="cart-dropdown" data-cart-target="cartDropdown">
+                    <h4>My Cart</h4>
+                    {% if cart.cartCount > 0 %}
+                        <ul>
+                            {% for key, item in cart %}
+                                {% if key != 'cartCount' and key != 'cartTotal' %}
+                                <li>
+                                    {{ item.product.name }} x {{ item.quantity }}
+                                    - {{ (item.product.price * item.quantity) | number_format(2, '.', ',') }} €
+                                    <button data-action="cart#removeItem" data-id="{{ item.product.id }}">Remove</button>
+                                </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                        <p><strong>Nombre de produits:</strong> {{ cart.cartCount }}</p>
+                        <p><strong>Total:</strong> {{ cart.cartTotal | number_format(2, '.', ',') }} €</p>
+                        <a href="{{ path('show_form_credit_card')}}" class="btn btn-primary">Checkout</a>
+                    {% else %}
+                        <p>Your cart is empty.</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+            
+
+            <div class="user-menu-container">
+                {% if app.user and app.user.roles.0 == 'CUSTOMER'%}
+                    <img src="{{ asset('images/user.png') }}" alt="user-logo" width="40px">
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path('orders_user') }}">{{ 'Mes_Commandes'|trans }}</a></li>
+                        <li><a href="#">{{ 'Mes_infos'|trans }}</a></li>
+                        <li><a href="{{ path('app_logout') }}">{{ 'Se_deconnecter'|trans }}</a></li>
+                    </ul>
+                {% elseif app.user and app.user.roles.0 == 'ADMIN'%}
+                    <a href="{{ path('app_logout') }}">{{ 'Se_deconnecter'|trans }}</a>
+                {% else %}
+                    <a href="{{ path('app_login')}}">
+                        <img src="{{ asset('images/se_co.png') }}" alt="login-logo" width="40px">
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

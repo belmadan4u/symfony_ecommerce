@@ -1,0 +1,138 @@
+/* Styles de base pour le corps */
+body {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4; /* Couleur de fond douce */
+}
+
+/* Style pour le conteneur de produits */
+.products {
+    text-decoration: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Grid responsive */
+    gap: 20px; /* Espacement entre les produits */
+    padding: 20px; /* Espacement interne */
+}
+.products a{
+    text-decoration: none;
+}
+/* Style pour chaque produit */
+.product {
+    background-color: #ffffff; /* Couleur de fond blanche */
+    border-radius: 10px; /* Coins arrondis */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère */
+    padding: 15px; /* Espacement interne */
+    transition: transform 0.3s; /* Transition pour l'effet de survol */
+}
+
+/* Effet de survol pour chaque produit */
+.product:hover {
+    transform: translateY(-5px); /* Légère élévation */
+}
+
+/* Styles pour le titre du produit */
+.product h2 {
+    font-size: 1.5rem; /* Taille de police */
+    margin: 0; /* Supprimer les marges */
+    color: #333; /* Couleur sombre */
+}
+
+/* Styles pour le prix du produit */
+.product p.price {
+    font-size: 1.25rem; /* Taille de police pour le prix */
+    color: #2f3640; /* Couleur pour le prix */
+    font-weight: bold; /* Texte en gras */
+}
+
+/* Styles pour la description du produit */
+.product p.description {
+    color: #666; /* Couleur de texte plus claire pour la description */
+}
+
+/* Styles pour les catégories */
+.product .category {
+    margin-top: 10px; /* Espacement au-dessus des catégories */
+    font-size: 0.875rem; /* Taille de police plus petite */
+    color: #999; /* Couleur de texte plus claire pour les catégories */
+}
+
+/* Styles pour les images */
+.product img {
+    max-width: 100%; 
+    height: auto; /* Garder le ratio d'aspect */
+    border-radius: 10px; 
+}
+
+
+
+/* Conteneur de la pagination */
+.navigation {
+    display: flex;
+    justify-content: center; /* Centre le contenu */
+    margin: 20px 0 20px 0;
+}
+
+/* Conteneur de la pagination interne */
+.pagination {
+    display: flex;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+}
+
+/* Style pour les liens de page */
+.pagination a {
+    display: inline-block;
+    padding: 10px 15px;
+    margin: 0 5px;
+    text-decoration: none;
+    background-color: #f1f1f1;
+    color: #333;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.pagination a:hover {
+    background-color: #007bff; /* Couleur au survol */
+    color: #fff;
+}
+
+/* Page courante */
+.pagination .current {
+    display: inline-block;
+    padding: 10px 15px;
+    margin: 0 5px;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+/* Page précédente, suivante, première et dernière */
+.pagination .next a,
+.pagination .last a {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.pagination .next a:hover,
+.pagination .last a:hover {
+    background-color: #0056b3; /* Couleur au survol des boutons de navigation */
+}
+
+.pagination .next a,
+.pagination .last a {
+    padding: 10px 15px;
+    margin-left: 5px;
+}
+
+/* Style responsive pour petits écrans */
+@media (max-width: 600px) {
+    .pagination a, .pagination .current {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+}

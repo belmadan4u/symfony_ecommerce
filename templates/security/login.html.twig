@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ 'Connexion'|trans }}</title>
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+</head>
+<body>
+    <h1>{{ 'Se connecter'|trans }}</h1>
+
+    <form action="{{ path('app_login') }}" method="post">
+    
+        {% if error %}
+            <div class="error">
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+        {% endif %}
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        <div>
+            <label for="username">{{ 'Nom d\'utilisateur'|trans }}</label>
+            <input type="text" id="username" name="_username" value="{{ last_username }}" required autofocus>
+        </div>
+
+        <div>
+            <label for="password">{{ 'Mot de passe'|trans }}</label>
+            <input type="password" id="password" name="_password" required>
+        </div>
+
+        
+
+        <button type="submit">{{ 'Connexion'|trans }}</button>
+    </form>
+
+    <a id="bnt-retourAccueil" href="{{ path('app_register') }}">{{ 'Créer un compte'|trans }}</a>
+
+    <a id="bnt-retourAccueil" href="{{ path('app_homepage') }}">{{ 'Retour à l\'accueil'|trans }}</a>
+</body>
+</html>

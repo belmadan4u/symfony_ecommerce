@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Panier</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/product.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/header.css') }}">
+    
+</head>
+<body>
+    {% include 'header/header.html.twig' %}
+    {% block title %}Cart{% endblock %}
+
+    {% block body %}
+        <h1>My Cart</h1>
+
+        {% if cart.cartCount > 0 %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                     {% for key, item in cart %}
+                        {% if key != 'cartCount' and key != 'cartTotal' %}
+                            <tr>
+                                <td>{{ item.product.name }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td>{{ item.product.price | number_format(2, '.', ',') }} €</td>
+                                <td>{{ (item.product.price * item.quantity) | number_format(2, '.', ',') }} €</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="cart-summary">
+                <p><strong>Total Items:</strong> {{ cart.cartCount }}</p>
+                <p><strong>Total Price:</strong> {{ cart.cartTotal | number_format(2, '.', ',') }} €</p>
+            </div>
+
+            <div class="cart-actions">
+                <a href="#" class="btn btn-primary">Proceed to Payment</a>
+            </div>
+        {% else %}
+            <p>Your cart is empty.</p>
+        {% endif %}
+    {% endblock %}
+
+    <a href="{{ path('app_homepage') }}">Retournez à vos achats</a>
+</body>
+</html>

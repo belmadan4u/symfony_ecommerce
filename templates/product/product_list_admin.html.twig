@@ -1,0 +1,71 @@
+{# templates/home/index.html.twig #}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ 'page_dacceuil'|trans}}{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/list_prod_admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/header.css') }}">
+</head>
+<body>
+    {% block body %}
+        {% include 'header/header.html.twig' %}
+        <div>
+            <a href="{{ path('add_product')}}">
+                + Ajouter un produit
+            </a>
+        </div>
+        <div class="products">
+            {% for product in pagination.items %}
+                <div class="product">
+                    <a href="{{ path('app_product', { 'id': product.id })}}">
+                        <div class="header_product">
+                            <h2>{{ product.name }}</h2>
+                            <div>
+                                <a href="{{ path('admin_prod_modify', { 'id': product.id })}}">
+                                    <img class="header_product_images" src="{{ asset('images/modify.png') }}" />
+                                </a>
+                                <a href="{{ path('admin_prod_delete', { id: product.id }) }}" 
+                                onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?');">
+                                <img class="header_product_images" src="{{ asset('images/delete.png') }}" />
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <p class="price">{{ product.price }} €</p>
+                        <p class="description">{{ product.description }}</p>
+                        <p>{{ product.status.value }}</p>
+                        {% for img in product.images %}
+                            <img src="{{ img.url }}" alt='Image de {{ product.name}}' />
+                        {% else %}
+                            <p>{{ 'aucune_images_disponible'|trans}}</p>
+                        {% endfor %}
+
+                        {% if product.category|length == 0 %}
+                            <p>{{ 'aucune_categorie_disponible'|trans}}</p>
+                        {% elseif product.category|length == 1 %}
+                            <p class="category">{{ product.category[0].name }}</p>
+                        {% else %}
+                            <p class="category">
+                            {% for categorie in product.category %}
+                                {{ categorie.name }}{% if not loop.last %}, {% endif %}
+                            {% endfor %}
+                            </p>
+                        {% endif %}
+                    </a>
+                </div>
+            {% else %}
+                <p>{{ 'aucun_produit_disponible'|trans}}</p>
+            {% endfor %}
+        </div>
+
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    {% endblock %}
+</body>
+</html>

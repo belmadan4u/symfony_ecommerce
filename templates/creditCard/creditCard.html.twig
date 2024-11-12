@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ 'page_dacceuil'|trans }}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('css/header.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    {% block javascripts %}
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
+    {% endblock %}
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            color: #444;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        /* Conteneur principal pour le formulaire de carte de crédit */
+        [name="credit_card_form"] {
+            width: 100%;
+            max-width: 600px;
+            background: #ffffff;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin: 40px auto;
+        }
+
+        /* Bloc pour chaque carte de crédit enregistrée */
+        .credit-card-form {
+            background-color: #f9fafb;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative; /* Pour positionner le bouton */
+            transition: box-shadow 0.3s ease, background-color 0.3s ease;
+        }
+
+        .credit-card-form:hover {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            background-color: #f1f3f5;
+        }
+
+        /* Textes dans chaque bloc de carte */
+        .credit-card-form p {
+            margin: 8px 0;
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        /* Bouton de suppression de carte */
+        .credit-card-form button {
+            background-color: #ff4d4d;
+            color: #ffffff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .credit-card-form button:hover {
+            background-color: #ff1f1f;
+        }
+
+        /* Bouton pour passer la commande, positionné en bas à droite */
+        .credit-card-form a {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background-color: #2a9df4;
+            color: #ffffff;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .credit-card-form a:hover {
+            background-color: #007acb;
+        }
+
+        /* Formulaire d'ajout de carte */
+        [data-credit-card-target="form"] {
+            background-color: #f0f4f8;
+            padding: 20px;
+            border: 1px dashed #b0bec5;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        [data-credit-card-target="form"] .credit-card-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Labels du formulaire */
+        [data-credit-card-target="form"] label {
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        /* Champs de saisie */
+        [data-credit-card-target="form"] input {
+            width: 96%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: #333;
+        }
+
+        /* Bouton de soumission du formulaire */
+        [data-credit-card-target="form"] .btn-submit {
+            background-color: #2a9df4;
+            color: #ffffff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        [data-credit-card-target="form"] .btn-submit:hover {
+            background-color: #007acb;
+        }
+
+        /* Message d'erreur */
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.85rem;
+            margin: 5px 0;
+        }
+
+        /* Conteneur pour le contenu du panier */
+        [name="cart_content"] {
+            width: 100%;
+            max-width: 600px;
+            background-color: #ffffff;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin: 20px auto;
+            color: #333;
+        }
+
+        /* En-tête de la section panier */
+        [name="cart_content"] h2 {
+            color: #444;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+
+        /* Liste des éléments du panier */
+        [name="cart_content"] ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        [name="cart_content"] li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        [name="cart_content"] li:last-child {
+            border-bottom: none;
+        }
+
+        /* Nom du produit et prix */
+        [name="cart_content"] li strong {
+            font-weight: 500;
+            color: #333;
+        }
+
+        /* Champ de quantité */
+        [name="cart_content"] input[type="number"] {
+            width: 60px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            text-align: center;
+            margin: 0 10px;
+        }
+
+        /* Bouton de suppression dans le panier */
+        [name="cart_content"] button {
+            background-color: #ff4d4d;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background-color 0.3s ease;
+        }
+
+        [name="cart_content"] button:hover {
+            background-color: #ff1f1f;
+        }
+
+        /* Résumé du panier */
+        [name="cart_content"] p {
+            font-size: 1rem;
+            margin: 10px 0;
+            color: #444;
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        [name="cart_content"] p strong {
+            font-weight: 700;
+            color: #333;
+        }
+
+        /* Message si le panier est vide */
+        [name="cart_content"] p.empty-cart-message {
+            text-align: center;
+            color: #777;
+            font-size: 1rem;
+        }
+
+
+</style>
+</head>
+<body>
+    <div data-controller="credit-card cart">
+        {% include 'header/header.html.twig' %}
+
+       <div name="cart_content" data-cart-target="cartContent">
+            <h2>{{ 'Contenu de votre commande'|trans }}</h2>
+            {% if cart.cartCount > 0 %}
+                <ul>
+                    {% for key, item in cart %}
+                        {% if key != 'cartCount' and key != 'cartTotal' %}
+                            <li>
+                                {{ item.product.name }}
+                                <input data-action="cart#updateQuantity" data-cart-target="quantityInput" data-cart-product-id="{{ item.product.id }}" type="number" name="quantity" value="{{ item.quantity }}" min="1">
+                                - {{ (item.product.price * item.quantity) | number_format(2, '.', ',') }} €
+                                <button data-action="cart#removeItemCartOrder" data-cart-product-id="{{ item.product.id }}">Supprimer</button>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+                <p><strong>Nombre de produits:</strong> {{ cart.cartCount }}</p>
+                <p><strong>Total:</strong> {{ cart.cartTotal | number_format(2, '.', ',') }} €</p>
+            {% else %}
+                <p>{{ 'Votre panier est vide.'|trans }}</p>
+            {% endif %}
+        </div>
+
+
+
+        <div name="credit_card_form">
+            <h2>{{ 'Vos cartes déjà enregistrées'|trans }}</h2>
+            <div data-credit-card-target="cardsContainer">
+                {% for cardUser in cardsUser %}
+                    <div class="credit-card-form">
+                        <p><strong>{{'Number'|trans}}:</strong> {{ cardUser.number }}</p>
+                        <p><strong>{{'Expiration Date'|trans}}:</strong> {{ cardUser.expirationDate }}</p>
+                        <p><strong>{{'CVV'|trans}}:</strong> {{ cardUser.cvv }}</p>
+                        <button data-action="credit-card#removeCard" data-card-id="{{ cardUser.id }}">{{'Remove'|trans}}</button>
+                        <a href='{{ path('order_with_card',  { 'idCard': cardUser.id } )}}'>{{'Passer la commande avec cette carte'|trans}}</a>
+                    </div>
+                {% else %}
+                    <p>{{'Vous n\'avez aucune carte enregistrée'|trans}}</p>
+                {% endfor %}
+            </div>
+
+            <h2>{{ 'Ajouter une carte'|trans }}</h2>
+
+            <form data-action="submit->credit-card#submitForm" data-credit-card-target="form" method="post" action="{{ path('add_credit_card') }}">
+                {{ form_start(form, {'attr': {'class': 'credit-card-form'}}) }}
+                    <div>    
+                        {{ form_label(form.number, 'N° de carte'|trans) }}
+                        {{ form_widget(form.number) }}
+                        {{ form_errors(form.number) }}
+                    </div> 
+                    <div> 
+                        {{ form_label(form.expirationDate, 'date_expiration'|trans) }}
+                        {{ form_widget(form.expirationDate) }}
+                        {{ form_errors(form.expirationDate) }}
+                    </div> 
+                    <div> 
+                        {{ form_label(form.cvv, 'CVV'|trans) }}
+                        {{ form_widget(form.cvv) }}
+                        {{ form_errors(form.cvv) }}
+                    </div> 
+                    <button type="submit"  class="btn-submit">{{ 'add_credit_card'|trans }}</button>
+                {{ form_end(form) }}
+            </form>
+        </div>
+    </div>
+</body>
+</html>
