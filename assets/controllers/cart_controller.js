@@ -18,7 +18,7 @@ export default class extends Controller {
       .then((response) => response.json())
       .then((data) => {
         const cart = data.cart;
-        
+        this.showAlert("Produit ajouté au panier avec succès !", "success");
         if (cart.cartCount > 0) {
           let itemsHtml = '';
           for (const [id, item] of Object.entries(cart)) {
@@ -41,7 +41,7 @@ export default class extends Controller {
           this.cartDropdownTarget.innerHTML = `<p>Your cart is empty.</p>`;
         }
       })
-      .catch((error) => console.error("Error adding product to cart:", error));
+      .catch((error) => this.showAlert("Erreur", "error"));
   }
 
   updateQuantity(event){
@@ -58,6 +58,7 @@ export default class extends Controller {
     .then(response => response.json())
     .then(data => {
       const cart = data.cart;
+      this.showAlert("Quantité du produit modifié", "success");
       if (cart.cartCount > 0) {
           let updatedHtml = `
               <h2>Contenu de votre commande</h2>
@@ -84,7 +85,7 @@ export default class extends Controller {
       } else {
           this.cartContentTarget.innerHTML = `<p>Votre panier est vide.</p>`;
       }
-    });
+    }).catch(this.showAlert("Erreur", "error"));
   }
 
   removeItem(event) {
@@ -97,7 +98,7 @@ export default class extends Controller {
     .then(response => response.json())
     .then(data => {
       const cart = data.cart;
-      
+      this.showAlert('Le produit a été supprimé avec succés', 'success')
       if (cart.cartCount > 0) {
         let itemsHtml = '';
         for (const [id, item] of Object.entries(cart)) {
@@ -158,5 +159,17 @@ export default class extends Controller {
             this.cartContentTarget.innerHTML = `<p>Votre panier est vide.</p>`;
         }
       });
+  }
+
+  showAlert(message, type = "success") {
+    const alert = document.createElement("div");
+    alert.className = `alert alert-${type}`;
+    alert.innerText = message;
+
+    document.body.appendChild(alert);
+
+    setTimeout(() => {
+        alert.remove();
+    }, 3000);
   }
 }

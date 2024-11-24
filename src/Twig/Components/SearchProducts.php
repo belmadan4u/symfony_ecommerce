@@ -24,12 +24,10 @@ class SearchProducts
     public function getPackages(): array
     {
         $this->logger->info('Searching for products with query: ' . json_encode($this->productRepository->findBySearchTerm($this->query)));
-        switch ($this->query) {
-            case '':
-                return [];
-            default:
-                return $this->productRepository->findBySearchTerm($this->query);
-        }
+        return match ($this->query) {
+            '' => [],
+            default => $this->productRepository->findBySearchTerm($this->query),
+        };
         
     }
 }
