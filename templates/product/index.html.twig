@@ -45,15 +45,9 @@
                         <p>Ce produit n'appartient à aucune catégorie.</p>
                     {% endif %}
                 </div>
-
-                <a href="{{ path('app_homepage') }}" class="back-to-list">Retour à la liste des produits</a>
-
-                <h1>{{ product.name }}</h1>
-                <p class="price">{{ product.price }} €</p>
-                <p class="description">{{ product.description }}</p>
-
                 <input type="number" data-cart-target="quantityInput" value="1" />
                 <button data-action="cart#addToCart" data-product-id="{{ product.id }}">Ajouter au panier</button>
+                <a href="{{ path('app_homepage') }}" class="back-to-list">Retour à la liste des produits</a>
                 
             </div>
     </div>
