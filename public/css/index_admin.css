@@ -1,44 +1,116 @@
 body {
     font-family: "Poppins", sans-serif;
     font-weight: 400;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
 }
 
-.navbar{
+/* Navbar */
+.navbar {
     display: flex;
     justify-content: space-around;
 }
-.navbar a{
+
+.navbar a {
     text-decoration: none;
     color: black;
-    font-size: xx-large;
+    font-size: 1.2rem;
     font-weight: 600;
     background-color: lightblue;
-    padding: 1%;
+    padding: 1rem;
     flex-grow: 1;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.navbar a:hover {
+    background-color: rgba(173, 216, 230, 0.5);
+}
+
+/* Main Content */
+#nbrProdCateg_montant_pie {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#nbrProdCateg_montant_pie {
+    flex: 1 1 30%;
+    min-width: 300px;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
     text-align: center;
 }
 
-.navbar a:hover{
-    background-color: rgba(173, 216, 230, 0.501);
+.MontantVentes p{
+    font-size: 1.2rem;
+    font-weight: 500;
+    font-size: xx-large;
+    font-weight: bold;
 }
 .scroll-table {
-    max-height: 300px; /* Limiter la hauteur du tableau */
-    overflow-y: scroll; /* Activer le défilement vertical */
+    display: flex;
+    flex-direction: column;
+    max-height: 300px;
+    overflow-y: scroll;
     border: 1px solid #ddd;
-    width: 80%;
-    margin-left: 10%;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 20px;
+    background-color: white;
+    border-radius: 8px;
+    padding: 10px;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 20px;
 }
-
 th, td {
     padding: 10px;
     border: 1px solid #ddd;
+    text-align: left;
 }
-
 th {
     background-color: #f4f4f4;
+}
+td {
+    background-color: white;
+}
+
+/* Pie Chart */
+#ratio_produits {
+    max-width: 30%;
+    max-height: 50%;
+    margin-top: 20px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+    }
+
+    #nbrProdCateg_montant_pie {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #nbrProdCateg_montant_pie > div {
+        flex: 1 1 100%;
+        min-width: 100%;
+    }
 }

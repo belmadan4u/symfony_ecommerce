@@ -47,6 +47,9 @@
         {% for image in product.images %}
             <div class="image-container">
                 <img src="{{ image.url }}" alt="Image de {{ product.name }}" style="max-width: 200px; max-height: 200px;"/>
+                <button type="button" class="btn btn-danger btn-sm remove-image" data-id="{{ image.id }}">
+                    {{ 'Supprimer'|trans }}
+                </button>
             </div>
         {% else %}
             <p>{{ 'Aucune image disponible'|trans }}</p>

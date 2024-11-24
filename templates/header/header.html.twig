@@ -18,12 +18,14 @@
         </div>
 
         <div class="search-cart-user">
-            <div class="searchBox">
-                <input id="searchInput" data-search-target="input" type="text" placeholder="Search" data-action="input->search#searchProducts">
+            {{ component('SearchProducts') }}
+
+            {#<input id="searchInput" data-search-target="input" type="text" placeholder="Search" data-action="input->search#searchProducts">
                 <button class="searchButton">
                     <img src="{{ asset('images/loupe.png') }}" alt="loupe-search-bar" width='35px'>
-                </button>
-            </div>
+                </button> #}
+                
+            
 
             
             {% if app.user and app.user.roles.0 != 'ADMIN' or not app.user%}

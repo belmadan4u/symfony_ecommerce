@@ -1,32 +1,13 @@
+/* Conteneur de la barre de recherche */
 .searchBox {
     background: #2f3640;
     height: 40px;
     border-radius: 40px;
     padding: 2px;
+    position: relative;
 }
 
-.searchBox:hover > #searchInput {
-    width: 240px;
-    padding: 0 6px;
-}
-
-.searchBox:hover > .searchButton {
-    background: white;
-    color: #2f3640;
-}
-
-.searchButton {
-    color: white;
-    float: right;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: 0.4s;
-}
-
+/* Champ de recherche */
 #searchInput {
     border: none;
     background: none;
@@ -39,6 +20,72 @@
     line-height: 40px;
     width: 0px;
 }
+
+/* Effet hover pour élargir le champ de recherche */
+.searchBox:hover > #searchInput {
+    width: 240px;
+    padding: 0 6px;
+}
+
+/* Bouton de recherche */
+.searchButton {
+    color: white;
+    float: right;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.4s;
+}
+
+.searchBox:hover > .searchButton {
+    background: white;
+    color: #2f3640;
+}
+
+/* Liste des résultats de recherche */
+.results-search {
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 25px;
+    width: 100%;
+    background-color: grey;
+    border: 1px solid black;
+    border-radius: 0 0 10px 10px;
+    z-index: 100;
+    padding: 10px 0;
+    list-style: none;
+}
+
+.results-search li {
+    padding: 10px 20px;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.results-search li:hover {
+    background-color: #3b3f44;
+}
+
+.results-search a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.results-search a:hover {
+    text-decoration: underline;
+}
+.results-search.empty {
+    display: none;
+}
+
+
+
+
 
 .langues {
     display: flex; 

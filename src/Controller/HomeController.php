@@ -38,7 +38,7 @@ class HomeController extends AbstractController
         $pagination = $paginator->paginate(
             $products, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
-            4 /*limit per page*/
+            10 /*limit per page*/
         );
 
         return $this->render('index.html.twig', [

@@ -6,6 +6,7 @@
     <title>{% block title %}{{ 'page_dacceuil'|trans}}{% endblock %}</title>
     <link rel="stylesheet" href="{{ asset('css/index_admin.css') }}">
     <link rel="stylesheet" href="{{ asset('css/header.css') }}">
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -28,36 +29,42 @@
             </a>
         </div>
 
-        <h1>Nombre de produits par catégorie</h1>
-        <div class="scroll-table">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Catégorie</th>
-                        <th>Nombre de produits</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for category, count in nbOfProductsByCategory %}
+        <div id="nbrProdCateg_montant_pie">
+            
+            <div class="scroll-table">
+            <h2>Nombre de produits par catégorie</h2>
+                <table>
+                    <thead>
                         <tr>
-                            <td>{{ category }}</td>
-                            <td>{{ count }}</td>
+                            <th>Catégorie</th>
+                            <th>Nombre de produits</th>
                         </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="2">Aucune catégorie disponible</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        
-        <h1>Montant total des ventes sur les derniers mois</h1>
-        <div class='MontantVentes'>
-            {{ montantVentes12lastMonth }}
+                    </thead>
+                    <tbody>
+                        {% for category, count in nbOfProductsByCategory %}
+                            <tr>
+                                <td>{{ category }}</td>
+                                <td>{{ count }}</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="2">Aucune catégorie disponible</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+            
+            <div class='MontantVentes'>
+                <h2>Montant total des ventes sur les derniers mois</h2>
+                <p>{{ montantVentes12lastMonth }}</p>
+            </div>
+
+            <canvas id="ratio_produits"></canvas>
         </div>
 
-        <h1>Dernières Commandes</h1>
+        <h2>Dernières Commandes</h2>
         <div class='derniereCom'>
             <table>
                 <thead>
@@ -89,10 +96,8 @@
                     {% endfor %}
                 </tbody>
             </table>
-
-            <canvas id="ratio_produits" width="400" height="400"></canvas>
-            
         </div>
+        
         {% else %}
             <p>Vous n'êtes pas autorisé à accéder à cette page.</p>
         {% endif %}

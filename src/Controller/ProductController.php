@@ -69,7 +69,7 @@ class ProductController extends AbstractController
         $pagination = $paginator->paginate(
             $products, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
-            4 /*limit per page*/
+            10 /*limit per page*/
         );
 
         return $this->render('product/product_list_admin.html.twig', [
@@ -154,22 +154,26 @@ class ProductController extends AbstractController
             throw $this->createNotFoundException('Produit non trouvé');
         }
 
-        if($product->getOrderItem() != null && in_array( $product->getOrderItem()->getOfOrder()->getStatus(), [OrderStatus::enPreparation, OrderStatus::expediee],)  ) {
-            return $this->redirectToRoute('admin_prod_list', [
-                'message' => 'Le produit ne peut pas être supprimé car il est dans une commande non achevée.'
-            ]);
-        }else{
-            foreach ($product->getImages() as $image) {
-                $this->entityManager->remove($image);
+        foreach ($product->getOrderItem() as $orderItem) {
+            $order = $orderItem->getOfOrder(); 
+            if (in_array($order->getStatus(), [OrderStatus::enPreparation, OrderStatus::expediee])) {
+                return $this->redirectToRoute('admin_prod_list', [
+                    'message' => 'Le produit ne peut pas être supprimé car il est dans une commande non achevée.'
+                ]);
             }
-            $this->entityManager->remove($product);
-            $this->entityManager->flush();
-
-            return $this->redirectToRoute('admin_prod_list', [
-                'message' => 'Le produit a été supprimé avec succès.'
-            ]);
-           
         }
+
+        foreach ($product->getImages() as $image) {
+            $this->entityManager->remove($image);
+        }
+        
+        // Supprimez le produit
+        $this->entityManager->remove($product);
+        $this->entityManager->flush();
+        
+        return $this->redirectToRoute('admin_prod_list', [
+            'message' => 'Le produit a été supprimé avec succès.'
+        ]);
         
     }
 

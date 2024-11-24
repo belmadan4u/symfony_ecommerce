@@ -6,6 +6,7 @@
     <title>{% block title %}{{ 'page_dacceuil'|trans}}{% endblock %}</title>
     <link rel="stylesheet" href="{{ asset('css/index.css') }}">
     <link rel="stylesheet" href="{{ asset('css/header.css') }}">
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -39,11 +40,23 @@
                     <p class="price">{{ product.price }} €</p>
                     <p class="description">{{ product.description }}</p>
                     <p>{{ product.status.value }}</p>
-                    {% for img in product.images %}
-                        <img src="{{ img.url }}" alt='Image de {{ product.name}}' />
-                    {% else %}
-                        <p>{{ 'aucune_images_disponible'|trans}}</p>
-                    {% endfor %}
+
+
+
+                    <div class="image-slider"  data-controller="img-prod-slider" data-product-id="{{ product.id }}">
+                        <button class="prev" {% if product.images|length <= 1 %}style="display:none" {% endif %} data-action="mouseenter->img-prod-slider#moveSlide" data-direction="-1">&#10094;</button>
+                        <div class="slider-images" data-img-prod-slider-target="images">
+                            {% if product.images|length > 1 %}
+                                {% for img in product.images %}
+                                    <img src="{{ img.url }}" alt="Image de {{ product.name }}" {% if loop.first %}class="active"{% endif %} />
+                                {% endfor %}
+                            {% else %}
+                                <img src="{{ product.images[0].url }}" alt="Image de {{ product.name }}" class="active" />
+                            {% endif %}
+                        </div>
+                        <button class="next" {% if product.images|length <= 1 %}style="display:none" {% endif %} data-action="mouseenter->img-prod-slider#moveSlide" data-direction="1">&#10095;</button>
+                    </div>
+
 
                     {% if product.category|length == 0 %}
                         <p>{{ 'aucune_categorie_disponible'|trans}}</p>

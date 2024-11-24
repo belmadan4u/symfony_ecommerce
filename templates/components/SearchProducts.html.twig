@@ -1,0 +1,27 @@
+<div {{ attributes }} class="searchBox">
+    <input
+        type="search"
+        data-model="query"
+        id="searchInput"
+        placeholder="Search"
+    >
+    <button class="searchButton">
+        <img src="{{ asset('images/loupe.png') }}" alt="loupe-search-bar" width='35px'>
+    </button> 
+
+    <ul class="results-search {{ query is empty ? 'empty' : '' }}">
+        {% if query is not empty %}
+            {% if this.getPackages() is not empty %}
+                {% for product in this.getPackages() %}
+                    <li>
+                        <a href="{{ path('app_product', { 'id': product.id }) }}">
+                            {{ product.name }}
+                        </a>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <li>{{ 'Aucun produit trouvé'|trans }}</li>
+            {% endif %}
+        {% endif %}
+    </ul>
+</div>

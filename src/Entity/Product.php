@@ -50,6 +50,7 @@ class Product
     {
         $this->images = new ArrayCollection();
         $this->category = new ArrayCollection();
+        $this->orderItems = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -176,9 +177,9 @@ class Product
         return $this;
     }
 
-    public function getOrderItem(): ?OrderItem
+    public function getOrderItem(): Collection
     {
-        return $this->orderItem;
+        return $this->orderItems;
     }
 
     public function setOrderItem(OrderItem $orderItem): static
