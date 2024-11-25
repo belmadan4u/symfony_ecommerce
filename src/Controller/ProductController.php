@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller;
 
 use App\Enum\OrderStatus;
@@ -17,10 +16,13 @@ use Psr\Log\LoggerInterface;
 class ProductController extends AbstractController
 {
     private $entityManager;
+    private $logger;
 
-    public function __construct(EntityManagerInterface $entityManager)
+
+    public function __construct(LoggerInterface $logger, EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
+        $this->logger = $logger;
     }
     
     #[Route('/product/add', name: 'add_product')]
@@ -32,16 +34,20 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $imageFiles = $form->get('images')->getData();
-            foreach ($imageFiles as $imageFile) {
+            foreach ($form['images'] as $imageForm) {
                 $image = new Image();
-
-                $imageBinary = file_get_contents($imageFile->getRealPath());
-                $imageBase64 = base64_encode($imageBinary);
-                
-                $image->setUrl($imageBase64);
-                $image->setProduct($product);
-                $em->persist($image);
+                $this->logger->info('Form data: ' . json_encode($form->getData()));
+                $imageFile = $imageForm->get('image')->getData();
+                try {
+                    $imageBinary = file_get_contents($imageFile->getRealPath());
+                    $imageBase64 = base64_encode($imageBinary);
+                    
+                    $image->setUrl($imageBase64);
+                    $image->setProduct($product);
+                    $em->persist($image);
+                } catch (\Exception $e) {
+                    $this->logger->error('Error processing image file: ' . $e->getMessage());
+                }
                 
             }
 
@@ -49,10 +55,12 @@ class ProductController extends AbstractController
             $em->flush();
             
             return $this->redirectToRoute('admin_prod_list'); 
+        } else {
+            $this->logger->error('Form not valid');
         }
 
         return $this->render('product/admin_add.html.twig', [
-            'addProductForm' => $form->createView(),
+            'form' => $form->createView(),
         ]);
     }
 
@@ -157,9 +165,8 @@ class ProductController extends AbstractController
         foreach ($product->getOrderItem() as $orderItem) {
             $order = $orderItem->getOfOrder(); 
             if (in_array($order->getStatus(), [OrderStatus::enPreparation, OrderStatus::expediee])) {
-                return $this->redirectToRoute('admin_prod_list', [
-                    'message' => 'Le produit ne peut pas être supprimé car il est dans une commande non achevée.'
-                ]);
+                $this->addFlash('error', 'Le produit ne peut pas être supprimé car il est dans une commande non achevée.');
+                return $this->redirectToRoute('admin_prod_list');
             }
         }
 
@@ -170,10 +177,9 @@ class ProductController extends AbstractController
         // Supprimez le produit
         $this->entityManager->remove($product);
         $this->entityManager->flush();
-        
-        return $this->redirectToRoute('admin_prod_list', [
-            'message' => 'Le produit a été supprimé avec succès.'
-        ]);
+        $this->addFlash('success', 'Le produit a été supprimé avec succès.');
+
+        return $this->redirectToRoute('admin_prod_list');
         
     }
 

@@ -13,11 +13,9 @@
         {% if query is not empty %}
             {% if this.getPackages() is not empty %}
                 {% for product in this.getPackages() %}
-                    <li>
-                        <a href="{{ path('app_product', { 'id': product.id }) }}">
-                            {{ product.name }}
-                        </a>
-                    </li>
+                    <a href="{{ path('app_product', { 'id': product.id }) }}">
+                        <li>{{ product.name }}</li>
+                    </a>
                 {% endfor %}
             {% else %}
                 <li>{{ 'Aucun produit trouvé'|trans }}</li>

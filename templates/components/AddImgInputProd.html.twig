@@ -1,0 +1,116 @@
+<div
+    {{ attributes }}
+>
+
+     {{ form_start(form, {'attr': {'class': 'product-form'}}) }}
+        
+        <!-- Nom du produit -->
+        <div class="form-group">
+            {{ form_label(form.name, 'Nom du Produit', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_row(form.name, {
+                label: false,
+                attr: {
+                    placeholder: 'Give your product a name',
+                    class: 'form-control'
+                }
+            }) }}
+            {{ form_errors(form.name, {'attr': {'class': 'form-error'}}) }}
+        </div>
+
+        <!-- Prix -->
+        <div class="form-group">
+            {{ form_label(form.price, 'Prix (€)', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_row(form.price, {
+                label: false,
+                attr: {
+                    placeholder: 'Give your product a price',
+                    class: 'form-control'
+                }
+            }) }}
+            {{ form_errors(form.price, {'attr': {'class': 'form-error'}}) }}
+        </div>
+
+        <!-- Description -->
+        <div class="form-group">
+            {{ form_label(form.description, 'Description', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_row(form.description, {
+                label: false,
+                attr: {
+                    placeholder: 'Give your product a description',
+                    class: 'form-control'
+                }
+            }) }}
+            {{ form_errors(form.description, {'attr': {'class': 'form-error'}}) }}
+        </div>
+
+        <!-- Stock -->
+        <div class="form-group">
+            {{ form_label(form.stock, 'Stock', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_row(form.stock, {
+                label: false,
+                attr: {
+                    placeholder: 'Give your product a stock',
+                    class: 'form-control'
+                }
+            }) }}
+            {{ form_errors(form.stock, {'attr': {'class': 'form-error'}}) }}
+        </div>
+
+        <!-- Statut -->
+        <div class="form-group">
+            {{ form_label(form.status, 'Statut', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_row(form.status, {
+                label: false,
+                attr: {
+                    placeholder: 'Give your product a status',
+                    class: 'form-control'
+                }
+            }) }}
+            {{ form_errors(form.status, {'attr': {'class': 'form-error'}}) }}
+        </div>
+
+        <!-- Catégories -->
+        <div class="form-group">
+            {{ form_label(form.category, 'Catégories', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_row(form.category, {
+                label: false,
+                attr: {
+                    placeholder: 'Give your product its categories',
+                    class: 'form-control'
+                }
+            }) }}
+            {{ form_errors(form.category, {'attr': {'class': 'form-error'}}) }}
+        </div>
+
+        <!-- Images -->
+        <div class="form-group">
+            {% for item_form in form.images %}
+                <div class="image-group">
+                    {{ form_row(item_form.image, {
+                        label: false,
+                        row_attr: {'class': 'image-input mb-2'}
+                    }) }}
+                    {{ form_row(item_form.vars.button_delete, {
+                        label: 'X',
+                        attr: {'class': 'btn btn-outline-danger'}
+                    }) }}
+                </div>
+            {% endfor %}
+            <p class="help-text">Formats acceptés : JPEG, PNG, WEBP (max 2 Mo)</p>
+            {{ form_widget(form.images.vars.button_add, {
+                label: '+ Add Item',
+                attr: {'class': 'btn btn-outline-primary'}
+            }) }}
+        </div>
+
+        <!-- Submit -->
+        <div class="form-group">
+            {{ form_row(form.submit, {
+                label: 'Enregistrer',
+                row_attr: {'class': 'btn-submit'}
+            }) }}
+        </div>
+        
+        {{ form_end(form) }}
+    
+</div>

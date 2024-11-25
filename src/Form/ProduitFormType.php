@@ -7,20 +7,16 @@ use App\Entity\Product;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Enum\ProductStatus;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Validator\Constraints\All;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\PositiveOrZero;
-use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use App\Entity\Image;
-use App\Form\ImageFormType;
-
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\UX\LiveComponent\Form\Type\LiveCollectionType;
 class ProduitFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -46,8 +42,8 @@ class ProduitFormType extends AbstractType
                     array_map(fn(ProductStatus $status) => $status->name, ProductStatus::cases()),
                     ProductStatus::cases()
                 ),
-                'choice_label' => fn($choice) => $choice->name, // Affiche le nom de chaque case
-                'choice_value' => fn($choice) => $choice?->value, // Utilise la valeur de chaque case
+                'choice_label' => fn($choice) => $choice->name, 
+                'choice_value' => fn($choice) => $choice?->value, 
                 'label' => 'Status'
             ])
             ->add('category', EntityType::class, [
@@ -56,22 +52,17 @@ class ProduitFormType extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
             ])
-            ->add('images', FileType::class, [
-                'label' => 'Ajouter des images',
-                'mapped' => false, // Les images ne sont pas liées directement à l'entité Product
-                'required' => false,
-                'multiple' => true,
-                'constraints' => [
-                    new All([
-                        'constraints' => [
-                            new File([
-                                'maxSize' => '2M',
-                                'mimeTypes' => ['image/jpeg', 'image/png', 'image/webp'],
-                                'mimeTypesMessage' => 'Veuillez uploader une image valide (JPEG ou PNG)',
-                            ])
-                        ],
-                    ])
-                ],
+            ->add('images', LiveCollectionType::class, [
+                'entry_type' => ImageFormType::class,
+                'entry_options' => ['label' => false],
+                'label' => false,
+                'mapped' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+            ])
+            ->add('submit', SubmitType::class, [
+                
             ])
         ;
     }

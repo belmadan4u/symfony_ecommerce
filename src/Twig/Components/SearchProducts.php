@@ -1,8 +1,6 @@
 <?php
-
 namespace App\Twig\Components;
 
-use Psr\Log\LoggerInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
@@ -17,13 +15,11 @@ class SearchProducts
     public string $query = '';
 
     public function __construct(
-        private ProductRepository $productRepository,
-         private LoggerInterface $logger
+        private ProductRepository $productRepository
     ) {}
 
     public function getPackages(): array
     {
-        $this->logger->info('Searching for products with query: ' . json_encode($this->productRepository->findBySearchTerm($this->query)));
         return match ($this->query) {
             '' => [],
             default => $this->productRepository->findBySearchTerm($this->query),
