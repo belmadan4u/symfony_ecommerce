@@ -42,7 +42,7 @@ class ProductController extends AbstractController
                     $imageBinary = file_get_contents($imageFile->getRealPath());
                     $imageBase64 = base64_encode($imageBinary);
                     
-                    $image->setUrl($imageBase64);
+                    $image->setUrl('data:image/jpeg;base64,'.$imageBase64);
                     $image->setProduct($product);
                     $em->persist($image);
                 } catch (\Exception $e) {
@@ -53,7 +53,8 @@ class ProductController extends AbstractController
 
             $em->persist($product);
             $em->flush();
-            
+            $this->addFlash('success', 'Le produit a été ajouté avec succés');
+
             return $this->redirectToRoute('admin_prod_list'); 
         } else {
             $this->logger->error('Form not valid');
@@ -70,7 +71,7 @@ class ProductController extends AbstractController
         $products = $this->entityManager->getRepository(Product::class)->findAll();
         foreach ($products as $product) {
             foreach ($product->getImages() as $image) {
-                $image->setUrl('data:image/jpeg;base64,' .stream_get_contents($image->getUrl())); 
+                $image->setUrl(stream_get_contents($image->getUrl())); 
             }
         }
 
@@ -96,55 +97,37 @@ class ProductController extends AbstractController
         }
 
         foreach ($product->getImages() as $image) {
-            $image->setUrl('data:image/jpeg;base64,' .stream_get_contents($image->getUrl())); 
+            $image->setUrl(stream_get_contents($image->getUrl())); 
         }
 
         $form = $this->createForm(ProduitFormType::class, $product);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
-            if ($form->isValid()) {
-                $product = $form->getData();
-                $logger->debug('Product data', [
-                    'id' => $product->getId(),
-                    'name' => $product->getName(),
-                    'price' => $product->getPrice(),
-                    'description' => $product->getDescription(),
-                    'stock' => $product->getStock(),
-                    'status' => $product->getStatus()->name, 
-                ]);
-
-                /*$imageFiles = $form->get('images')->getData();
-
-                if (!empty($imageFiles)) {
-                    foreach ($imageFiles as $imageFile) {
-                        if ($imageFile->isValid()) {
-                            $image = new Image();
-                            $imageBinary = file_get_contents($imageFile->getRealPath());
-                            $imageBase64 = base64_encode($imageBinary);
-
-                            $image->setUrl($imageBase64);
-                            $image->setProduct($product);
-                            $this->entityManager->persist($image);
-                        }
-                    }
-                }*/
-    
-                $this->entityManager->persist($product);
-                $this->entityManager->flush();
-    
-                return $this->redirectToRoute('admin_prod_list'); 
-            } else {
-                foreach ($form->all() as $field) {
-                    if (!$field->isValid()) {
-                        $fieldErrors = $field->getErrors(); 
-                        foreach ($fieldErrors as $fieldError) {
-                            $logger->error(sprintf('Error in field %s: %s', $field->getName(), $fieldError->getMessage()));
-                        }
-                    }
+        if ($form->isSubmitted() && $form->isValid()) {
+            foreach ($form['images'] as $imageForm) {
+                $image = new Image();
+                $this->logger->info('Form data: ' . json_encode($form->getData()));
+                $imageFile = $imageForm->get('image')->getData();
+                try {
+                    $imageBinary = file_get_contents($imageFile->getRealPath());
+                    $imageBase64 = base64_encode($imageBinary);
+                    
+                    $image->setUrl('data:image/jpeg;base64,'.$imageBase64);
+                    $image->setProduct($product);
+                    $this->entityManager->persist($image);
+                } catch (\Exception $e) {
+                    $this->logger->error('Error processing image file: ' . $e->getMessage());
                 }
                 
             }
+
+            $this->entityManager->persist($product);
+            $this->entityManager->flush();
+            $this->addFlash('success', 'Le produit a été modifié avec succés');
+
+            return $this->redirectToRoute('admin_prod_list'); 
+        } else {
+            $this->logger->error('Form not valid');
         }
 
         return $this->render('product/product_modify_admin.html.twig', [ 
@@ -188,7 +171,7 @@ class ProductController extends AbstractController
     {
         $product = $em->getRepository(Product::class)->find($id);
         foreach ($product->getImages() as $imgProd) {
-            $imgProd->setUrl('data:image/jpeg;base64,' .stream_get_contents($imgProd->getUrl())); 
+            $imgProd->setUrl(stream_get_contents($imgProd->getUrl())); 
             
         }
 
@@ -207,7 +190,7 @@ class ProductController extends AbstractController
         foreach ($products as $product) {
             $imagesProd = [];
             foreach ($product->getImages() as $productImg) {
-                $imagesProd[] = 'data:image/jpeg;base64,' .stream_get_contents($productImg->getUrl());
+                $imagesProd[] = stream_get_contents($productImg->getUrl());
             }
             
             $categories = [];
@@ -229,5 +212,25 @@ class ProductController extends AbstractController
         return new JsonResponse($results);
     }
 
+
+    #[Route(path: "/product/delete-image/{id}", name:"product_delete_image", methods:["DELETE"])]
+    public function deleteImage($id, EntityManagerInterface $em, Request $request)
+    {
+        $image = $em->getRepository(Image::class)->find($id);
+        
+        if (!$image) {
+            return new JsonResponse(['success' => false, 'message' => 'Image non trouvée'], 404);
+        }
+
+        try {
+
+            $em->remove($image);
+            $em->flush();
+
+            return new JsonResponse(['success' => true]);
+        } catch (\Exception $e) {
+            return new JsonResponse(['success' => false, 'message' => 'Erreur lors de la suppression'], 500);
+        }
+    }
     
 }

@@ -79,11 +79,26 @@
                     class: 'form-control'
                 }
             }) }}
+            <a>{{ 'add_categorie'|trans }}</a>
             {{ form_errors(form.category, {'attr': {'class': 'form-error'}}) }}
         </div>
 
         <!-- Images -->
         <div class="form-group">
+            {{ form_label(form.images, 'Images') }}
+            <div class="existing-image">
+                {% if product is not empty %}
+                    {% for prodImg in product.images %}
+                        <div class="image-container">
+                            <img src="{{ prodImg.url }}" alt="Image actuelle" />
+                            <button type="button" class="btn btn-outline-danger delete-image" data-image-id="{{ prodImg.id }}">
+                                Supprimer
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
             {% for item_form in form.images %}
                 <div class="image-group">
                     {{ form_row(item_form.image, {
@@ -98,15 +113,14 @@
             {% endfor %}
             <p class="help-text">Formats acceptés : JPEG, PNG, WEBP (max 2 Mo)</p>
             {{ form_widget(form.images.vars.button_add, {
-                label: '+ Add Item',
+                label: '+ Ajouter une image',
                 attr: {'class': 'btn btn-outline-primary'}
             }) }}
         </div>
 
-        <!-- Submit -->
         <div class="form-group">
             {{ form_row(form.submit, {
-                label: 'Enregistrer',
+                label:  'Enregistrer' ,
                 row_attr: {'class': 'btn-submit'}
             }) }}
         </div>

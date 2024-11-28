@@ -33,7 +33,7 @@
                 + Ajouter un produit
             </a>
         </div>
-        <div class="products">
+        <div class="products" data-search-target="products">
             {% for product in pagination.items %}
                 <div class="product">
                     <a href="{{ path('app_product', { 'id': product.id })}}">
@@ -53,11 +53,20 @@
                         <p class="price">{{ product.price }} €</p>
                         <p class="description">{{ product.description }}</p>
                         <p>{{ product.status.value }}</p>
-                        {% for img in product.images %}
-                            <img src="{{ img.url }}" alt='Image de {{ product.name}}' />
-                        {% else %}
-                            <p>{{ 'aucune_images_disponible'|trans}}</p>
-                        {% endfor %}
+                        
+                        <div class="image-slider"  data-controller="img-prod-slider" data-product-id="{{ product.id }}">
+                            <button class="prev" {% if product.images|length <= 1 %}style="display:none" {% endif %} data-action="mouseenter->img-prod-slider#moveSlide" data-direction="-1">&#10094;</button>
+                            <div class="slider-images" data-img-prod-slider-target="images">
+                                {% if product.images|length > 1 %}
+                                    {% for img in product.images %}
+                                        <img src="{{ img.url }}" alt="Image de {{ product.name }}" {% if loop.first %}class="active"{% endif %} />
+                                    {% endfor %}
+                                {% else %}
+                                    <img src="{{ product.images[0].url }}" alt="Image de {{ product.name }}" class="active" />
+                                {% endif %}
+                            </div>
+                            <button class="next" {% if product.images|length <= 1 %}style="display:none" {% endif %} data-action="mouseenter->img-prod-slider#moveSlide" data-direction="1">&#10095;</button>
+                        </div>
 
                         {% if product.category|length == 0 %}
                             <p>{{ 'aucune_categorie_disponible'|trans}}</p>

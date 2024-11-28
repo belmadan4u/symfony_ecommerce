@@ -30,7 +30,7 @@ class HomeController extends AbstractController
         $products = $this->entityManager->getRepository(Product::class)->findAll();
         foreach ($products as $product) {
             foreach ($product->getImages() as $image) {
-                $image->setUrl('data:image/jpeg;base64,' .stream_get_contents($image->getUrl())); 
+                $image->setUrl(stream_get_contents($image->getUrl())); 
             }
         }
 

@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Category;
 use App\Entity\Product;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -23,7 +24,18 @@ class ProduitFormType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('price')
+            ->add('price', NumberType::class, [
+                'label' => 'Price',
+                'attr' => ['class' => 'input-field', 'min' => 0],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Le prix ne peut pas être vide.',
+                    ]),
+                    new PositiveOrZero([
+                        'message' => 'Le prix doit être un entier positif ou zéro.',
+                    ]),
+                ],
+            ])
             ->add('description')
             ->add('stock', IntegerType::class, [
                 'label' => 'Stock',

@@ -144,7 +144,66 @@ body {
         font-size: 14px;
     }
 }
-
+/* Styling for the slider container */
+.image-slider {
+    position: relative;
+    width: 100%;
+    max-width: 600px;  /* Adjust as needed */
+    margin: 0 auto;
+  }
+  
+  /* Hide the buttons by default */
+  .image-slider .prev,
+  .image-slider .next {
+    display: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Position the buttons to the left and right of the slider */
+  .image-slider .prev {
+    left: 10px;
+  }
+  
+  .image-slider .next {
+    right: 10px;
+  }
+  
+  /* Show the buttons on hover */
+  .image-slider:hover .prev,
+  .image-slider:hover .next {
+    display: block;
+  }
+  
+  /* Styling for the images */
+  .slider-images {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+  }
+  
+  .slider-images img {
+    width: 100%;
+    object-fit: cover; /* Make sure images fill the container */
+    transition: opacity 0.3s ease-in-out;
+    opacity: 0;
+    display: none;
+  }
+  
+  /* Show the active image */
+  .slider-images img.active {
+    opacity: 1;
+    display: block;
+  }
 
 /* Messages de succès */
 .alert-success {

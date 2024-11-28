@@ -31,6 +31,7 @@ body {
 /* Effet de survol pour chaque produit */
 .product:hover {
     transform: translateY(-5px); /* Légère élévation */
+    /*opacity: 0.8;*/
 }
 
 /* Styles pour le titre du produit */
