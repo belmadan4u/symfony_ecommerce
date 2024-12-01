@@ -97,9 +97,9 @@ class HomeController extends AbstractController
     {
         if ($this->getUser() !== null) {
             $roles = $this->getUser()->getRoles();
-            if (in_array('ADMIN', $roles)) {
+            if (in_array('ROLE_ADMIN', $roles)) {
                 return $this->redirectToRoute('admin_dashboard');
-            } elseif (in_array('CUSTOMER', $roles)) {
+            } elseif (in_array('ROLE_CUSTOMER', $roles)) {
                 return $this->redirectToRoute('app_homepage');
             }
         } else{

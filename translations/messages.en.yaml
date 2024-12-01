@@ -9,4 +9,23 @@ Aucune_categories_disponible: 'no category available'
 aucune_images_disponible: 'no images available'
 aucune_categorie_disponible: 'no categorie available'
 aucun_produit_disponible: 'no produit available'
-
+product_name.Ballon de football : "Soccer Ball"
+product_name.Raquette de tennis : "Tennis Racket"
+product_name.Vélo de montagne : "Mountain Bike"
+product_name.Tapis de yoga : "Yoga Matress"
+product_name.Gants de boxe : "Boxe Gloves"
+product_name.Sac de frappe : "Boxing sack"
+product_status.disponible : "available"
+product_status.en rupture : "shortage"
+product_status.precommande : "preorder"
+product_categorie.Football : "Soccer"
+product_categorie.Tennis : "Tennis"
+product_categorie.Cyclisme : "Cycling"
+product_categorie.Yoga : "Yoga"
+product_categorie.Boxe : "Boxing"
+product_description.Ballon de football de haute qualité : "Soccer ball of high quality"
+product_description.Raquette de tennis légère : "Light tennis racket"
+product_description.Vélo de montagne robuste : "Robust mountain bike"
+product_description.Tapis de yoga antidérapant : "Non-slip yoga mat"
+product_description.Gants de boxe confortables : "Confortable boxing gloves"
+product_description.sac de frappe de grosse moula : "Boxing sack of big moulaga"

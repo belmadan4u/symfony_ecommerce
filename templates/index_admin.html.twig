@@ -14,7 +14,7 @@
 </head>
 <body>
     {% block body %}
-        {% if app.user != null and app.user.roles.0 == 'ADMIN'%}
+        {% if app.user != null and app.user.roles.0 == 'ROLE_ADMIN'%}
         {% include 'header/header.html.twig' %}
             
         <div class="navbar">
@@ -64,7 +64,7 @@
             <canvas id="ratio_produits"></canvas>
         </div>
 
-        <h2>Dernières Commandes</h2>
+        <h2 id="titre_table_comm">Dernières Commandes sur les 12 derniers mois</h2>
         <div class='derniereCom'>
             <table>
                 <thead>

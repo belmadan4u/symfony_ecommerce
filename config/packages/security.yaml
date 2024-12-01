@@ -35,7 +35,15 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # Accès réservé aux administrateurs (rôle ADMIN)
-        - { path: ^/users, roles: ADMIN }
+        - { path: ^/users, roles: ROLE_ADMIN }
+        - { path: ^/admin/, roles: ROLE_ADMIN }
+        - { path: ^/orders, roles: ROLE_ADMIN }
+        - { path: ^/product/add, roles: ROLE_ADMIN }
+        - { path: ^/product/list, roles: ROLE_ADMIN }
+        - { path: ^/product/modify, roles: ROLE_ADMIN }
+        - { path: ^/product/delete, roles: ROLE_ADMIN }
+        - { path: ^/product/delete-image, roles: ROLE_ADMIN }
+        - { path: ^/product/category/add, roles: ROLE_ADMIN }
 
         # Redirection par défaut pour les non-autorisés
     #access_denied_url: /

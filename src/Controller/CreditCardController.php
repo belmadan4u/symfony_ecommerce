@@ -32,6 +32,7 @@ class CreditCardController extends AbstractController
         return $this->render('creditCard/creditCard.html.twig', [
             'form' => $form->createView(),
             'cardsUser' => $cardsUser,
+            'hideCartHeader' => true
         ]);
     }
 

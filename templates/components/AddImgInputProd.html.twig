@@ -72,6 +72,30 @@
         <!-- Catégories -->
         <div class="form-group">
             {{ form_label(form.category, 'Catégories', {'label_attr': {'class': 'form-label'}}) }}
+            <div data-controller="category-modal">
+            <button type="button" class="btn btn-outline-primary" data-action="category-modal#open">
+                {{ 'add_category'|trans }}
+            </button>
+            <div class="custom-modal hidden" data-category-modal-target="modal">
+                <div class="custom-modal-content">
+                    <button type="button" class="close-button" data-action="category-modal#close">&times;</button>
+                    <h5>Ajouter une Catégorie</h5>
+                    <div class="form-group">
+                        <label for="newCategoryName" class="form-label">Nom de la Catégorie</label>
+                        <input 
+                            type="text" 
+                            data-category-modal-target="input" 
+                            class="form-control" 
+                            placeholder="Nom de la catégorie"
+                        >
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-secondary" data-action="category-modal#close">Annuler</button>
+                        <button type="button" class="btn btn-primary" data-action="category-modal#save">Enregistrer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
             {{ form_row(form.category, {
                 label: false,
                 attr: {
@@ -79,9 +103,11 @@
                     class: 'form-control'
                 }
             }) }}
-            <a>{{ 'add_categorie'|trans }}</a>
+            
             {{ form_errors(form.category, {'attr': {'class': 'form-error'}}) }}
         </div>
+
+        
 
         <!-- Images -->
         <div class="form-group">

@@ -13,6 +13,7 @@ use App\Form\ProduitFormType;
 use App\Entity\Image;
 use Knp\Component\Pager\PaginatorInterface;
 use Psr\Log\LoggerInterface;
+use App\Entity\Category;
 class ProductController extends AbstractController
 {
     private $entityManager;
@@ -166,8 +167,8 @@ class ProductController extends AbstractController
         
     }
 
-    #[Route('/product/{id}', name: 'app_product')]
-    public function productShow(int $id, EntityManagerInterface $em): Response
+    #[Route('/product/show/{id}/{_locale}', name: 'app_product', locale: 'fr')]
+    public function productShow(string $id, EntityManagerInterface $em): Response
     {
         $product = $em->getRepository(Product::class)->find($id);
         foreach ($product->getImages() as $imgProd) {
@@ -213,15 +214,17 @@ class ProductController extends AbstractController
     }
 
 
-    #[Route(path: "/product/delete-image/{id}", name:"product_delete_image", methods:["DELETE"])]
+    #[Route(path: "/product/delete-image/{id}", name:"product_delete_image", methods:["POST"])]
     public function deleteImage($id, EntityManagerInterface $em, Request $request)
     {
         $image = $em->getRepository(Image::class)->find($id);
-        
+        $this->logger->info('Image ID reçu : ' . $id);
+
         if (!$image) {
+            $this->logger->error('Image introuvable avec l\'ID : ' . $id);
             return new JsonResponse(['success' => false, 'message' => 'Image non trouvée'], 404);
         }
-
+        
         try {
 
             $em->remove($image);
@@ -229,8 +232,31 @@ class ProductController extends AbstractController
 
             return new JsonResponse(['success' => true]);
         } catch (\Exception $e) {
-            return new JsonResponse(['success' => false, 'message' => 'Erreur lors de la suppression'], 500);
+            return new JsonResponse(['success' => false], 500);
         }
+    }
+
+    #[Route(path: "/product/category/add", name:"product_category_add", methods:["POST"])]
+    public function addCategory(EntityManagerInterface $em, Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+        $name = $data['name'];
+        
+        if ($name) {
+            $category = new Category();
+            $category->setName($name);
+
+            $em->persist($category);
+            $em->flush();
+
+            return new JsonResponse([
+                'status' => 'Category added successfully!', 
+                'id' => $category->getId(),
+                'name' => $category->getName()
+            ], 200);        
+        }
+
+        return new JsonResponse(['error' => 'Category name is required.'], 400);
     }
     
 }

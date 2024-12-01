@@ -28,38 +28,38 @@
                 </button> #}
                 
             
+            {% set hideCartHeader = hideCartHeader is defined ? hideCartHeader : false %}
+            {% if not hideCartHeader %}
+                {% if app.user and app.user.roles.0 != 'ADMIN' or not app.user %}
+                    <div class="cart-container">
+                        <a href="{{ path('app_cart') }}">
+                            <img src="{{ asset('images/panier.png') }}" alt="Panier" width="40px">
+                        </a>
 
-            
-            {% if app.user and app.user.roles.0 != 'ADMIN' or not app.user%}
-            <div class="cart-container">
-                <a href="{{ path('app_cart') }}">
-                    <img src="{{ asset('images/panier.png') }}" alt="Panier" width="40px">
-                </a>
-
-                <div class="cart-dropdown" data-cart-target="cartDropdown">
-                    <h4>My Cart</h4>
-                    {% if cart.cartCount > 0 %}
-                        <ul>
-                            {% for key, item in cart %}
-                                {% if key != 'cartCount' and key != 'cartTotal' %}
-                                <li>
-                                    {{ item.product.name }} x {{ item.quantity }}
-                                    - {{ (item.product.price * item.quantity) | number_format(2, '.', ',') }} €
-                                    <button data-action="cart#removeItem" data-id="{{ item.product.id }}">Remove</button>
-                                </li>
-                                {% endif %}
-                            {% endfor %}
-                        </ul>
-                        <p><strong>Nombre de produits:</strong> {{ cart.cartCount }}</p>
-                        <p><strong>Total:</strong> {{ cart.cartTotal | number_format(2, '.', ',') }} €</p>
-                        <a href="{{ path('show_form_credit_card')}}" class="btn btn-primary">Checkout</a>
-                    {% else %}
-                        <p>Your cart is empty.</p>
-                    {% endif %}
-                </div>
-            </div>
+                        <div class="cart-dropdown" data-cart-target="cartDropdown">
+                            <h4>{{"panier"|trans}}</h4>
+                            {% if cart.cartCount > 0 %}
+                                <ul>
+                                    {% for key, item in cart %}
+                                        {% if key != 'cartCount' and key != 'cartTotal' %}
+                                        <li>
+                                            {{ item.product.name }} x {{ item.quantity }}
+                                            - {{ (item.product.price * item.quantity) | number_format(2, '.', ',') }} €
+                                            <button data-action="cart#removeItem" data-id="{{ item.product.id }}">Remove</button>
+                                        </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                                <p><strong>{{"Nombre de produits:"|trans }}</strong> {{ cart.cartCount }}</p>
+                                <p><strong>Total:</strong> {{ cart.cartTotal | number_format(2, '.', ',') }} €</p>
+                                <a href="{{ path('show_form_credit_card')}}" class="btn btn-primary">{{ "checkout"|trans}}</a>
+                            {% else %}
+                                <p>{{"Your cart is empty."|trans}}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
             {% endif %}
-            
 
             <div class="user-menu-container">
                 {% if app.user and app.user.roles.0 == 'CUSTOMER'%}
@@ -70,7 +70,9 @@
                         <li><a href="{{ path('app_logout') }}">{{ 'Se_deconnecter'|trans }}</a></li>
                     </ul>
                 {% elseif app.user and app.user.roles.0 == 'ADMIN'%}
-                    <a href="{{ path('app_logout') }}">{{ 'Se_deconnecter'|trans }}</a>
+                    <a href="{{ path('app_logout') }}">
+                        <img src="{{ asset('images/se_deco.jpg') }}" alt="logout-log" width="40px">
+                    </a>
                 {% else %}
                     <a href="{{ path('app_login')}}">
                         <img src="{{ asset('images/se_co.png') }}" alt="login-logo" width="40px">
