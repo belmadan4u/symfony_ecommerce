@@ -13,6 +13,7 @@ class ProductFixtures extends Fixture
     public const PRODUCT_3_REFERENCE = 'product_3';
     public const PRODUCT_4_REFERENCE = 'product_4';
     public const PRODUCT_5_REFERENCE = 'product_5';
+    public const PRODUCT_6_REFERENCE = 'product_6';
 
     public function load(ObjectManager $manager): void
     {
@@ -55,6 +56,14 @@ class ProductFixtures extends Fixture
                 'price' => 49.99,
                 'description' => 'Gants de boxe confortables',
                 'stock' => 30,
+                'status' => ProductStatus::disponible,
+            ],
+            [
+                'reference' => self::PRODUCT_6_REFERENCE,
+                'name' => 'Sac de frappe',
+                'price' => 299.99,
+                'description' => 'sac de frappe de grosse moula',
+                'stock' => 25,
                 'status' => ProductStatus::disponible,
             ],
         ];

@@ -18,6 +18,7 @@ class ProductCategoryFixtures extends Fixture implements DependentFixtureInterfa
             ['productReference' => ProductFixtures::PRODUCT_3_REFERENCE, 'categoryReference' => CategoryFixtures::CATEGORY_CYCLISME_REFERENCE], // Vélo de montagne -> Cyclisme
             ['productReference' => ProductFixtures::PRODUCT_4_REFERENCE, 'categoryReference' => CategoryFixtures::CATEGORY_YOGA_REFERENCE],      // Tapis de yoga -> Yoga
             ['productReference' => ProductFixtures::PRODUCT_5_REFERENCE, 'categoryReference' => CategoryFixtures::CATEGORY_BOXE_REFERENCE],      // Gants de boxe -> Boxe
+            ['productReference' => ProductFixtures::PRODUCT_6_REFERENCE, 'categoryReference' => CategoryFixtures::CATEGORY_BOXE_REFERENCE],      // Sac de frappe -> Boxe
         ];
 
         foreach ($productCategoryData as $data) {
