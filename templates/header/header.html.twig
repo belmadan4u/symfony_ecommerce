@@ -1,5 +1,5 @@
 <div class='bigheader'>
-        {% if app.user and app.user.roles.0 == 'ADMIN' %}
+        {% if app.user and app.user.roles.0 == 'ROLE_ADMIN' %}
             <a class='title' href="{{ path('admin_dashboard')}}" >
                 <h1 class='title'>{{ 'Bienvenue'|trans }} ADMIN</h1>
             </a>
@@ -30,7 +30,7 @@
             
             {% set hideCartHeader = hideCartHeader is defined ? hideCartHeader : false %}
             {% if not hideCartHeader %}
-                {% if app.user and app.user.roles.0 != 'ADMIN' or not app.user %}
+                {% if app.user and app.user.roles.0 != 'ROLE_ADMIN' or not app.user %}
                     <div class="cart-container">
                         <a href="{{ path('app_cart') }}">
                             <img src="{{ asset('images/panier.png') }}" alt="Panier" width="40px">
@@ -62,14 +62,14 @@
             {% endif %}
 
             <div class="user-menu-container">
-                {% if app.user and app.user.roles.0 == 'CUSTOMER'%}
+                {% if app.user and app.user.roles.0 == 'ROLE_CUSTOMER'%}
                     <img src="{{ asset('images/user.png') }}" alt="user-logo" width="40px">
                     <ul class="dropdown-menu">
                         <li><a href="{{ path('orders_user') }}">{{ 'Mes_Commandes'|trans }}</a></li>
                         <li><a href="#">{{ 'Mes_infos'|trans }}</a></li>
                         <li><a href="{{ path('app_logout') }}">{{ 'Se_deconnecter'|trans }}</a></li>
                     </ul>
-                {% elseif app.user and app.user.roles.0 == 'ADMIN'%}
+                {% elseif app.user and app.user.roles.0 == 'ROLE_ADMIN'%}
                     <a href="{{ path('app_logout') }}">
                         <img src="{{ asset('images/se_deco.jpg') }}" alt="logout-log" width="40px">
                     </a>
