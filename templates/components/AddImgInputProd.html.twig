@@ -116,7 +116,7 @@
                 {% if product is not empty %}
                     {% for prodImg in product.images %}
                         <div class="image-container">
-                            <img src="{{ prodImg.url }}" alt="Image actuelle" />
+                            <img src="{{ prodImg.url }}" alt="Image de {{ product.name }}" />
                             <button type="button" class="btn btn-outline-danger delete-image" data-image-id="{{ prodImg.id }}">
                                 Supprimer
                             </button>

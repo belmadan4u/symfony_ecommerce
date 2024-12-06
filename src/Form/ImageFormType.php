@@ -16,7 +16,7 @@ class ImageFormType extends AbstractType
     {
         $builder
             ->add('image', FileType::class, [
-                'label' => 'Ajouter une images',
+                'label' => 'Ajouter une image',
                 'mapped' => false, 
                 'required' => false,
                 'multiple' => false,

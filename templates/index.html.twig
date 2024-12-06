@@ -18,7 +18,7 @@
     <div data-controller="cart">
         {% include 'header/header.html.twig' %}
 
-        <div class='category_filter'>
+        {#<div class='category_filter'>
             <label for="category-select">{{ 'Filtrer_par'|trans }}</label>
 
             <select name="category" id="category-select">
@@ -29,7 +29,7 @@
                     <option value='no category'>{{ 'Aucune_categories_disponible'|trans }}</option>
                 {% endfor %}
             </select>
-        </div>
+        </div>#}
 
         <div class="products" data-search-target="products">
             {% for product in pagination.items %}
@@ -60,7 +60,7 @@
                     {% if product.category|length == 0 %}
                         <p>{{ 'aucune_categorie_disponible'|trans}}</p>
                     {% elseif product.category|length == 1 %}
-                        <p class="category">{{ ( 'product_categorie.' ~ product.category[0].name)|trans }}</p>
+                        <p class="category">{{ ( product.category[0].name)|trans }}</p>
                     {% else %}
                         <p class="category">
                         {% for categorie in product.category %}

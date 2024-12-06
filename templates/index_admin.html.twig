@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{{ 'page_dacceuil'|trans}}{% endblock %}</title>
+    <title>{% block title %}{{ 'page_dacceuil'|trans }}{% endblock %}</title>
     <link rel="stylesheet" href="{{ asset('css/index_admin.css') }}">
     <link rel="stylesheet" href="{{ asset('css/header.css') }}">
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -18,37 +18,37 @@
         {% include 'header/header.html.twig' %}
             
         <div class="navbar">
-            <a href="{{ path('admin_prod_list')}}">
-                Produit
+            <a href="{{ path('admin_prod_list') }}">
+                {{ 'Produit'|trans }}
             </a>
-            <a href="{{ path('admin_show_user')}}">
-                Users
+            <a href="{{ path('admin_show_user') }}">
+                {{ 'Users'|trans }}
             </a>
-            <a href="{{ path('admin_show_orders')}}">
-                Orders
+            <a href="{{ path('admin_show_orders') }}">
+                {{ 'Orders'|trans }}
             </a>
         </div>
 
         <div id="nbrProdCateg_montant_pie">
             
             <div class="scroll-table">
-            <h2>Nombre de produits par catégorie</h2>
+            <h2>{{ 'Nombre de produits par catégorie'|trans }}</h2>
                 <table>
                     <thead>
                         <tr>
-                            <th>Catégorie</th>
-                            <th>Nombre de produits</th>
+                            <th>{{ 'Catégorie'|trans }}</th>
+                            <th>{{ 'Nombre de produits'|trans }}</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for category, count in nbOfProductsByCategory %}
                             <tr>
-                                <td>{{ category }}</td>
+                                <td>{{ category|trans }}</td>
                                 <td>{{ count }}</td>
                             </tr>
                         {% else %}
                             <tr>
-                                <td colspan="2">Aucune catégorie disponible</td>
+                                <td colspan="2">{{ 'Aucune catégorie disponible'|trans }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -57,40 +57,40 @@
             
             
             <div class='MontantVentes'>
-                <h2>Montant total des ventes sur les derniers mois</h2>
+                <h2>{{ 'Montant total des ventes sur les derniers mois'|trans }}</h2>
                 <p>{{ montantVentes12lastMonth }}</p>
             </div>
 
             <canvas id="ratio_produits"></canvas>
         </div>
 
-        <h2 id="titre_table_comm">Dernières Commandes sur les 12 derniers mois</h2>
+        <h2 id="titre_table_comm">{{ 'Dernières Commandes sur les 12 derniers mois'|trans }}</h2>
         <div class='derniereCom'>
             <table>
                 <thead>
                     <tr>
-                        <th>Dernières Commandes</th>
+                        <th>{{ 'Dernières Commandes'|trans }}</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for commande in dernieresCommandes %}
                         <tr>
                             <td>
-                                id : {{ commande.id }}, le {{ commande.createdAt|date('d/m/Y H:i') }} de {{ commande.ofUser.id }} ( {{ commande.ofUser.firstName }} {{ commande.ofUser.lastName }} ) </br> 
+                                {{ 'id'|trans }} : {{ commande.id }}, {{ 'le'|trans }} {{ commande.createdAt|date('d/m/Y H:i') }} {{ 'de'|trans }} {{ commande.ofUser.id }} ( {{ commande.ofUser.firstName }} {{ commande.ofUser.lastName }} ) </br> 
                                 
                                 <ul>
                                 {% set montantCommande = 0 %}
                                 {% if commande.orderItems|length != 0 %}
                                     {% for orderItem in commande.orderItems %}    
                                         {% set montantCommande = montantCommande +  orderItem.quantity * orderItem.productPrice %}
-                                        <li>{{ orderItem.quantity }} {{ orderItem.product.name }} à {{ orderItem.productPrice }} €</li>
+                                        <li>{{ orderItem.quantity }} {{ orderItem.product.name }} {{ 'à'|trans }} {{ orderItem.productPrice }} €</li>
                                     {% endfor %}
                                 {% else %}
-                                    <li>Pas de produit associé à cette commande</li>
+                                    <li>{{ 'Pas de produit associé à cette commande'|trans }}</li>
                                 {% endif %}
                                 </ul>
                                 
-                                Montant total de la commande : {{montantCommande}} €
+                                {{ 'Montant total de la commande'|trans }} : {{ montantCommande }} €
                             </td>
                         </tr>
                     {% endfor %}
@@ -99,7 +99,7 @@
         </div>
         
         {% else %}
-            <p>Vous n'êtes pas autorisé à accéder à cette page.</p>
+            <p>{{ 'Vous n\'êtes pas autorisé à accéder à cette page.'|trans }}</p>
         {% endif %}
     {% endblock %}
     <script>
@@ -107,10 +107,10 @@
     const myPieChart = new Chart(ctx, {
         type: 'pie',
         data: {
-            labels: ['en stock', 'en precommande', 'en rupture'], 
+            labels: ['{{ "en stock"|trans }}', '{{ "en precommande"|trans }}', '{{ "en rupture"|trans }}'], 
             datasets: [{
-                label: 'Ratio de disponibilité des produits',
-                data: [{{ nbPdDispo }}, {{nbPdPrecommande}}, {{nbPdRupture}}], 
+                label: '{{ "Ratio de disponibilité des produits"|trans }}',
+                data: [{{ nbPdDispo }}, {{ nbPdPrecommande }}, {{ nbPdRupture }}], 
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
@@ -132,7 +132,7 @@
                 },
                 title: {
                     display: true,
-                    text: 'Ratio des disponibilité des produits'
+                    text: '{{ "Ratio des disponibilité des produits"|trans }}'
                 }
             }
         }

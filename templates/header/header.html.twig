@@ -54,7 +54,7 @@
                                 <p><strong>Total:</strong> {{ cart.cartTotal | number_format(2, '.', ',') }} €</p>
                                 <a href="{{ path('show_form_credit_card')}}" class="btn btn-primary">{{ "checkout"|trans}}</a>
                             {% else %}
-                                <p>{{"Your cart is empty."|trans}}</p>
+                                <p>{{"Your cart is empty"|trans}}</p>
                             {% endif %}
                         </div>
                     </div>
